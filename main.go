@@ -1,8 +1,9 @@
 package main
 
 import (
-	"fyne.io/fyne/app"
+
 	"fyne.io/fyne/v2"
+	"fyne.io/fyne/app"
 	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/widget"
 )
@@ -13,6 +14,7 @@ type config struct {
 	CurrentFile   fyne.URI
 	SaveMenuItem  *fyne.MenuItem
 }
+var cfg config
 
 func main() {
 	// create a fyne app
@@ -23,8 +25,11 @@ func main() {
 	edit, preview := cfg.makeUI()
 
 	// set the content of the window
-	win.SetContent(container.NewHSplit(edit, preview))
+	win.SetContent(container.NewHSplit(edit,preview))
 	// show window and run app
+	win.Resize(fyne.Size{Width: 800,Height: 500})
+	win.CenterOnScreen()
+	win.ShowAndRun()
 }
 func (app *config) makeUI() (*widget.Entry, *widget.RichText) {
 	// 允许多行
