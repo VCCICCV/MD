@@ -2,9 +2,6 @@ package main
 
 import (
 	"fmt"
-	"io"
-	"os"
-	"strings"
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/app"
 	"fyne.io/fyne/v2/container"
@@ -13,6 +10,9 @@ import (
 	"fyne.io/fyne/v2/widget"
 	"github.com/flopp/go-findfont"
 	"github.com/golang/freetype/truetype"
+	"io"
+	"os"
+	"strings"
 )
 
 type config struct {
@@ -83,14 +83,16 @@ func (app *config) createMenuItems(win fyne.Window) {
 	menu := fyne.NewMainMenu(fileMenu)
 	win.SetMainMenu(menu)
 }
+
 // 过滤器
 var filter = storage.NewExtensionFileFilter([]string{".md", ".MD"})
-func (app *config) saveFunc(win fyne.Window) func(){
-	return func(){
-		if app.CurrentFile != nil{
+
+func (app *config) saveFunc(win fyne.Window) func() {
+	return func() {
+		if app.CurrentFile != nil {
 			write, err := storage.Writer(app.CurrentFile)
-			if err != nil{
-				dialog.ShowError(err,win)
+			if err != nil {
+				dialog.ShowError(err, win)
 			}
 			write.Write([]byte(app.EditWidget.Text))
 			defer write.Close()
@@ -142,8 +144,8 @@ func (app *config) saveAsFunc(win fyne.Window) func() {
 				return
 			}
 			// 把文件名限制为小写.md
-			if !strings.HasSuffix(strings.ToLower(write.URI().String()), ".md"){
-				dialog.ShowInformation("Error","Please name your file with a .md extension!",win)
+			if !strings.HasSuffix(strings.ToLower(write.URI().String()), ".md") {
+				dialog.ShowInformation("Error", "Please name your file with a .md extension!", win)
 				return
 			}
 
